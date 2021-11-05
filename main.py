@@ -35,26 +35,31 @@ while choice != 'y' and choice != 'n':
 if choice == 'n':
     exit()
 
+# MAIN FUNCTION
 def main_func():
     choice = True
     while choice == True:
-        # REQUEST DATA FROM API
+
+        # REQUEST DATA
         try:
             covid_data = requests.get(custom_api)
             print("\nData fetched from https://api.opencovid.ca/!\n")
 
             # CONVERT TO JSON FILE
             covid_data = covid_data.json()
-            for item in covid_data['summary']:
+            covid_summary = covid_data['summary']
+            
+            # EXTRACTING DATA FROM DICTIONARY
+            for item in covid_summary:
                 print('Date of Data:', item['date'])
                 print('Total Cases:', item['cumulative_cases'])
                 print('Total Deaths:', item['cumulative_deaths'])
                 print('Total Recovered:', item['cumulative_recovered'])
                 print('Total Tested:', item['cumulative_testing'])
                 break
-                '''for item in covid_data['summmary']:'''
             break
-        # FAILED REQUEST DATA FROM API
+
+        # FAILED REQUEST DATA
         except:
             print("Error occurred while fetching data.")
             choice = input("\nRetry? y/n\n")
